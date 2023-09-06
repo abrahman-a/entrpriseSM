@@ -1,13 +1,12 @@
 package com.egaz.esm.ems.clients.dto;
 
-import lombok.Data;
+public record ClientRequest (
+        String instituteName,
+        String email,
+        String phone,
+        String password,
+        String address,
+        String role
+){
 
-@Data
-public class ClientRequest {
-    private String instituteName;
-    private String email;
-    private String phone;
-    private String password;
-    private String address;
-    String role;
 }

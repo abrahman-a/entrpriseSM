@@ -12,9 +12,4 @@ public class EmsApplication {
 		SpringApplication.run(EmsApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
-
 }

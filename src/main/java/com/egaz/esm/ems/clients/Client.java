@@ -20,10 +20,12 @@ public class Client {
     private String instituteName;
     @NaturalId(mutable = true)
     private String email;
+    @Column(length = 64)
     private String password;
     private String phone;
     private String address;
-
+    private boolean isEnabled = false;
+    private boolean notLocked = true;
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST,
@@ -32,4 +34,5 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id", referencedColumnName = "clientID"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles = new HashSet<>();
+
 }

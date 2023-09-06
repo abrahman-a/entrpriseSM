@@ -2,6 +2,9 @@ package com.egaz.esm.ems.role.service;
 
 import com.egaz.esm.ems.clients.Client;
 import com.egaz.esm.ems.clients.repository.ClientsRepository;
+import com.egaz.esm.ems.exception.ClientAlreadyException;
+import com.egaz.esm.ems.exception.ClientNotFoundException;
+import com.egaz.esm.ems.exception.RoleAlreadyException;
 import com.egaz.esm.ems.role.Role;
 import com.egaz.esm.ems.role.repository.RolesRepository;
 
@@ -22,7 +25,7 @@ public class RoleService implements IRoleService {
     public Role createRole(Role theRole) {
         Optional<Role> checkRole = roleRepository.findByName(theRole.getName());
         if (checkRole.isPresent()){
-            throw new RoleAlreadyExistException(checkRole.get().getName()+ " role already exist");
+            throw new RoleAlreadyException(checkRole.get().getName()+ " role already exist");
         }
         return roleRepository.save(theRole);
     }
@@ -44,27 +47,27 @@ public class RoleService implements IRoleService {
 
     @Override
     public Client removeUserFromRole(Long userId, Long roleId) {
-        Optional<Client> user = clientsRepository.findById(userId);
+        Optional<Client> client = clientsRepository.findById(userId);
         Optional<Role> role = roleRepository.findById(roleId);
-        if (role.isPresent() && role.get().getClients().contains(user.get())) {
-            role.get().removeUserFromRole(user.get());
+        if (role.isPresent() && role.get().getClients().contains(client.get())) {
+            role.get().removeUserFromRole(client.get());
             roleRepository.save(role.get());
-            return user.get();
+            return client.get();
         }
-        throw new UserNotFoundException("User not found in the specified role!!");
+        throw new ClientNotFoundException("User not found in the specified role!!");
     }
 
     @Override
     public Client assignUserToRole(Long userId, Long roleId) {
-        Optional<Client> user = clientsRepository.findById(userId);
+        Optional<Client> client = clientsRepository.findById(userId);
         Optional<Role> role = roleRepository.findById(roleId);
-        if (user.isPresent() && user.get().getRoles().contains(role.get())){
-            throw new UserAlreadyExistsException(
-                    user.get().getInstituteName()+ " is already assigned to the " + role.get().getName() +" role");
+        if (client.isPresent() && client.get().getRoles().contains(role.get())){
+            throw new ClientAlreadyException(
+                    client.get().getInstituteName()+ " is already assigned to the " + role.get().getName() +" role");
         }
-        role.ifPresent(theRole -> theRole.assignClientToRole(client.get()));
+        role.ifPresent(theRole -> theRole.assignUserToRole(client.get()));
         roleRepository.save(role.get());
-        return user.get();
+        return client.get();
     }
 
     @Override

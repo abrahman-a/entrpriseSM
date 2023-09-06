@@ -8,12 +8,15 @@ import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+
 
 @Service
 @AllArgsConstructor
@@ -62,6 +65,14 @@ public class JWTService {
     private Key getSignedKey(){
         byte[] keyByte = Decoders.BASE64.decode(JWT_SECRET);
         return Keys.hmacShaKeyFor(keyByte);
+    }
+    public Boolean validateToken(String theToken, UserDetails userDetails){
+        final String userName = extractUsernameFromToken(theToken);
+        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(theToken));
+    }
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
 

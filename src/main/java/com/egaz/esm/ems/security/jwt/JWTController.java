@@ -32,13 +32,13 @@ public class JWTController {
     @PostMapping("/login")
     public String getTokenForAuthenticatedUser(@RequestBody JWTAuthenticationRequest authRequest) {
         // Retrieve the user's stored password from the database based on the provided email
-        Optional<Client> userDetails = clientsService.findByEmail(authRequest.getEmail());
+        Optional<Client> clientDetails = clientsService.findByEmail(authRequest.getEmail());
 
         // Encode the provided password using the same encoding algorithm (BCryptPasswordEncoder)
         String encodedProvidedPassword = bCryptPasswordEncoder.encode(authRequest.getPassword());
 
         // Compare the encoded provided password with the stored password
-        if (bCryptPasswordEncoder.matches(authRequest.getPassword(), userDetails.get().getPassword())) {
+        if (bCryptPasswordEncoder.matches(authRequest.getPassword(), clientDetails.get().getPassword())) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
             if (authentication.isAuthenticated()) {
@@ -50,6 +50,5 @@ public class JWTController {
             return "Authentication failed: Incorrect username or password";
         }
     }
-
 
 }

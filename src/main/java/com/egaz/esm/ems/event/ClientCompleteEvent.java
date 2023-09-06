@@ -1,7 +1,6 @@
 package com.egaz.esm.ems.event;
 
 import com.egaz.esm.ems.clients.Client;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

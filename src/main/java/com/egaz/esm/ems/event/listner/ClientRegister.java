@@ -25,7 +25,7 @@ public class ClientRegister implements ApplicationListener<ClientCompleteEvent> 
 
     private Client theClient;
     @Override
-    public void onApplicationEvent(ApplicationListener event) {
+    public void onApplicationEvent(ClientCompleteEvent event) {
         // 1. Get the newly registered user
         theClient = event.getClient();
         //2. Create a verification token for the user
@@ -58,7 +58,6 @@ public class ClientRegister implements ApplicationListener<ClientCompleteEvent> 
         messageHelper.setText(mailContent, true);
         mailSender.send(message);
     }
-
 
 
 }

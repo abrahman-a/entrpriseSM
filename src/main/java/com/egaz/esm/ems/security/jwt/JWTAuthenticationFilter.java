@@ -3,6 +3,7 @@ package com.egaz.esm.ems.security.jwt;
 
 import com.egaz.esm.ems.security.clientDetails.ClientRegistrationDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +22,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
-    private  final JWTService jwtService;
-    private  final ClientRegistrationDetailsService registrationDetailsService;
-
+    @Autowired
+    private   JWTService jwtService;
+    @Autowired
+    private   ClientRegistrationDetailsService registrationDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
@@ -36,7 +38,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             userName = jwtService.extractUsernameFromToken(token);
         }
         if (userName != null & SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = UserDetailsService.loadUserByUsername(userName);
+            UserDetails userDetails = registrationDetailsService.loadUserByUsername(userName);
             if(jwtService.validateToken(token, userDetails)) {
                 var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
