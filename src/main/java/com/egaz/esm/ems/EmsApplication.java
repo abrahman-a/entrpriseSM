@@ -12,9 +12,12 @@ public class EmsApplication {
 		SpringApplication.run(EmsApplication.class, args);
 	}
 
+<<<<<<< HEAD
 //	@Bean
 //	public ModelMapper modelMapper() {
 //		return new ModelMapper();
 //	}
 
+=======
+>>>>>>> ad7f0b133be0f1af6f6e33cf0587396a7be6846b
 }
