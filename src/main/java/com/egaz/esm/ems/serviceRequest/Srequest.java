@@ -26,5 +26,4 @@ public class Srequest {
     @JoinColumn(name = "client_id")
     private Client client;
 
-
 }

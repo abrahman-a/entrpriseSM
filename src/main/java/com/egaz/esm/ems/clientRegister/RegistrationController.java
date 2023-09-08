@@ -8,6 +8,7 @@ import com.egaz.esm.ems.clients.dto.ClientRequest;
 import com.egaz.esm.ems.clients.services.ClientsService;
 import com.egaz.esm.ems.event.ClientCompleteEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @RequestMapping("/register")
 public class RegistrationController {
-
+    @Autowired
     private ClientsService clientsService;
     private final ApplicationEventPublisher publisher;
+    @Autowired
     private VerificationTokenRepository tokenRespository;
 
-    @PostMapping
-    public String registerUser(@RequestBody ClientRequest registrationRequest, final HttpServletRequest request){
+    @PostMapping("/")
+    public String registerClient(@RequestBody ClientRequest registrationRequest, final HttpServletRequest request){
         Client client = clientsService.registerClient(registrationRequest);
         publisher.publishEvent(new ClientCompleteEvent(client, applicationUrl(request)));
         return "Success!  Please, check your email to complete your registration";

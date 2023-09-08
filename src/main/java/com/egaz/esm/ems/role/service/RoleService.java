@@ -7,13 +7,18 @@ import com.egaz.esm.ems.exception.ClientNotFoundException;
 import com.egaz.esm.ems.exception.RoleAlreadyException;
 import com.egaz.esm.ems.role.Role;
 import com.egaz.esm.ems.role.repository.RolesRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
+@RequiredArgsConstructor
 public class RoleService implements IRoleService {
-
+    @Autowired
     private  RolesRepository roleRepository;
+    @Autowired
     private  ClientsRepository clientsRepository;
 
     @Override

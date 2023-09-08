@@ -31,7 +31,7 @@ public class ClientRegister implements ApplicationListener<ClientCompleteEvent> 
         //2. Create a verification token for the user
         String verificationToken = UUID.randomUUID().toString();
         //3. Save the verification token for the user
-        clientsService.saveUserVerificationToken(theClient, verificationToken);
+        clientsService.saveClientVerificationToken(theClient, verificationToken);
         //4 Build the verification url to be sent to the user
         String url = event.getApplicationUrl()+"/register/verifyEmail?token="+verificationToken;
         //5. Send the email.

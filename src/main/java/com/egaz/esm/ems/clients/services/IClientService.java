@@ -13,7 +13,7 @@ public interface IClientService {
     Client registerClient(ClientRequest request);
     Optional<Client> findByEmail(String email);
 
-    void saveUserVerificationToken(Client theClient, String verificationToken);
+    void saveClientVerificationToken(Client theClient, String verificationToken);
 
     String validateToken(String theToken);
 

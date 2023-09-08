@@ -23,10 +23,11 @@ import java.util.Optional;
 
 @Service
 public class ClientsService implements IClientService {
-
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
     private VerificationTokenRepository tokenRepository;
-
+    @Autowired
     private RolesRepository roleRepository;
     @Autowired
     private ClientsRepository  clientsRepository;
@@ -55,8 +56,8 @@ public class ClientsService implements IClientService {
 
     @Override
     public Client registerClient(ClientRequest request) {
-        Optional<Client> user = this.findByEmail(request.email());
-        if (user.isPresent()){
+        Optional<Client> client = this.findByEmail(request.email());
+        if (client.isPresent()){
             throw new ClientAlreadyException(
                     "User with email "+request.email() + " already exists");
         }
@@ -78,7 +79,7 @@ public class ClientsService implements IClientService {
     }
 
     @Override
-    public void saveUserVerificationToken(Client theUser, String token) {
+    public void saveClientVerificationToken(Client theUser, String token) {
         var verificationToken = new VerificationToken(token, theUser);
         tokenRepository.save(verificationToken);
     }

@@ -15,20 +15,19 @@ import java.util.stream.Collectors;
 @Controller
 @RestController
 @RequestMapping("api/v1/client")
-public class ClientsController {
 
+public class ClientsController {
     @Autowired
     private ClientsService clientsService;
     @Autowired
     private ModelMapper modelMapper;
 
     @PostMapping("/add")
-    public ResponseEntity<?>  addUser(@RequestBody ClientRequest n){
+    public ResponseEntity<?>  addClient(@RequestBody ClientRequest n){
         Client cr= clientsService.addClient(n);
         ClientResponse client = modelMapper.map(cr,ClientResponse.class);
         return ResponseEntity.ok(client);
     }
-
     @GetMapping("/list")
     public ResponseEntity<?> getAllClient(){
         List<Client> list = clientsService.getAllClient();
@@ -36,11 +35,40 @@ public class ClientsController {
         return ResponseEntity.ok(resp);
     }
 
-    @PutMapping("/update")
-    public Client updateBooking(@RequestBody Client client,@RequestParam Long clientID){
-        return clientsService.updateClient(client,clientID);
+//    @PutMapping("/update")
+//    public Client updateBooking(@RequestBody Client client,@RequestParam Long clientID){
+//        return clientsService.updateClient(client,clientID);
+//    }
+
+    @PostMapping("/updatePassword/{id}")
+    public ResponseEntity<Client> updatePassword(
+            @PathVariable("clientID") Long clientID,
+            @RequestBody Client updatedPassword) {
+        Client updated = clientsService.updatePassword(clientID, updatedPassword);
+        return ResponseEntity.ok(updated);
     }
 
+    @GetMapping("/{email}")
+    public Client getByEmail(@PathVariable("email") String email){
+        return  clientsService.getClient(email);
+    }
 
+    @DeleteMapping("/{email}")
+    public void delete(@PathVariable("email") String email){
+        clientsService.delete(email);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Client> updateClient(@RequestBody Client client){
+        return ResponseEntity.ok(clientsService.update(client));
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Client> updateUser(
+            @PathVariable("id") Long clientID,
+            @RequestBody Client updatedClient) {
+        Client updated = clientsService.updateClient(clientID, updatedClient);
+        return ResponseEntity.ok(updated);
+    }
 
 }
