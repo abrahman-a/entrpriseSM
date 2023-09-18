@@ -40,7 +40,7 @@ public class ClientsController {
 //        return clientsService.updateClient(client,clientID);
 //    }
 
-    @PostMapping("/updatePassword/{clientID}")
+    @PostMapping("/updatePassword/{id}")
     public ResponseEntity<Client> updatePassword(
             @PathVariable("clientID") Long clientID,
             @RequestBody Client updatedPassword) {
