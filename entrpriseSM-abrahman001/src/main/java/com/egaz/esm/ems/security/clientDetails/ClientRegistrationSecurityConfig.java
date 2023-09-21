@@ -69,15 +69,13 @@ public class ClientRegistrationSecurityConfig {
                 new AntPathRequestMatcher("/register/**"),
                 new AntPathRequestMatcher("/roles/**"),
                 new AntPathRequestMatcher("/documents/**"),
-                new AntPathRequestMatcher("/notifications/**"),
-                new AntPathRequestMatcher("/api/test/**"),
-                new AntPathRequestMatcher("/api/v1/client/**")
+                new AntPathRequestMatcher("/notifications/**")
         );
 
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers(unsecuredRequests).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/esm/**")).hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER")
+                .requestMatchers(new AntPathRequestMatcher("/dprms/**")).hasAnyAuthority("ROLE_ADMIN", "ROLE_MANAGER")
                 .and()
 //                    .authorizeHttpRequests(authorizeRequests ->
 //                            authorizeRequests
@@ -97,16 +95,6 @@ public class ClientRegistrationSecurityConfig {
 
         return http.build();
     }
-
-//    @Override
-//    public void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/api/test/generateQRCode").permitAll() // Allow public access to this endpoint
-//                .anyRequest().authenticated()
-//                .and()
-//                .csrf().disable(); // Disable CSRF protection for simplicity
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

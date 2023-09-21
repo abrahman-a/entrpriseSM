@@ -25,7 +25,7 @@ public class RegistrationController {
     @Autowired
     private VerificationTokenRepository tokenRespository;
 
-    @PostMapping("/m")
+    @PostMapping("/")
     public String registerClient(@RequestBody ClientRequest registrationRequest, final HttpServletRequest request){
         Client client = clientsService.registerClient(registrationRequest);
         publisher.publishEvent(new ClientCompleteEvent(client, applicationUrl(request)));
