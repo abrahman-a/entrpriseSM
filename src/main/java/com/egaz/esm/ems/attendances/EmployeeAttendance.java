@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name ="attendances")
-public class EmployeeInfo {
+@Table(name ="employee_attendances")
+public class EmployeeAttendance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,4 +20,6 @@ public class EmployeeInfo {
     private LocalDateTime signInTime;
     private LocalDateTime signOutTime;
     private AttendanceStatus status;
+    @Lob
+    private byte[] qrCodeImage;
 }

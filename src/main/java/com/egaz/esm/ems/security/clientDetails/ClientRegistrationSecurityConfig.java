@@ -70,7 +70,8 @@ public class ClientRegistrationSecurityConfig {
                 new AntPathRequestMatcher("/roles/**"),
                 new AntPathRequestMatcher("/documents/**"),
                 new AntPathRequestMatcher("/notifications/**"),
-                new AntPathRequestMatcher("/api/test/**")
+                new AntPathRequestMatcher("/api/test/**"),
+                new AntPathRequestMatcher("/api/v1/client/**")
         );
 
         http.csrf().disable()

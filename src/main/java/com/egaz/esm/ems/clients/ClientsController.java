@@ -1,5 +1,6 @@
 package com.egaz.esm.ems.clients;
 
+import com.egaz.esm.ems.apis.EmployeeInfoApi;
 import com.egaz.esm.ems.clients.dto.ClientRequest;
 import com.egaz.esm.ems.clients.dto.ClientResponse;
 import com.egaz.esm.ems.clients.services.ClientsService;
@@ -21,6 +22,9 @@ public class ClientsController {
     private ClientsService clientsService;
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EmployeeInfoApi employeeInfoApi;
 
     @PostMapping("/add")
     public ResponseEntity<?>  addClient(@RequestBody ClientRequest n){
@@ -51,6 +55,11 @@ public class ClientsController {
     @GetMapping("/{email}")
     public Client getByEmail(@PathVariable("email") String email){
         return  clientsService.getClient(email);
+    }
+    @GetMapping("/emp-inf")
+    public ResponseEntity<?> getEmpInf(){
+
+        return  ResponseEntity.ok(employeeInfoApi.employeeInfo(10001l).getBody());
     }
 
     @DeleteMapping("/{email}")
